@@ -12,7 +12,12 @@ sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_
 echo -e "PubkeyAuthentication yes\n" >> /etc/ssh/sshd_config
 service sshd reload
 yum -y install nss-pam-ldapd  sssd pam_ldap pam_krb5 oddjob oddjob-mkhomedir krb5-workstation
-service oddjobd start
+setenforce 0
+systemctl start dbus
+systemctl restart dbus
+systemctl start oddjobd
+systemctl enable dbus
+systemctl enable oddjobd
 authconfig \
 --enablelocauthorize \
 --enableldap \
